@@ -1,0 +1,137 @@
+[gd_scene load_steps=4 format=3 uid="uid://crlht0weng47x"]
+
+[ext_resource type="PackedScene" uid="uid://b5myvjikpkkoe" path="res://script/filter.tscn" id="1_1imb5"]
+[ext_resource type="Script" path="res://script/main.gd" id="1_ni1r3"]
+[ext_resource type="AudioStream" uid="uid://6x0elijr2org" path="res://gn-final.wav" id="3_8aghv"]
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 3.0
+offset_bottom = 3.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ni1r3")
+
+[node name="BandPass" parent="." instance=ExtResource("1_1imb5")]
+layout_mode = 1
+offset_left = 93.0
+offset_top = 292.0
+offset_right = 93.0
+offset_bottom = 292.0
+effect = "Band Pass Hrz (1)"
+exp_edit = true
+min_value = 30.0
+max_value = 20000.0
+value = 2000.0
+
+[node name="Panner" parent="." instance=ExtResource("1_1imb5")]
+layout_mode = 1
+offset_left = 91.0
+offset_top = 378.0
+offset_right = 91.0
+offset_bottom = 378.0
+effect = "Pan (2)"
+min_value = -1.0
+max_value = 1.0
+
+[node name="Gain" parent="." instance=ExtResource("1_1imb5")]
+layout_mode = 1
+offset_left = 91.0
+offset_top = 477.0
+offset_right = 91.0
+offset_bottom = 477.0
+effect = "Gain (3)"
+min_value = -10.0
+max_value = 10.0
+
+[node name="Track" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_8aghv")
+autoplay = true
+mix_target = 2
+bus = &"Convert_to_mono"
+
+[node name="CheckTarget" type="CheckButton" parent="."]
+layout_mode = 0
+offset_left = 214.0
+offset_top = 126.0
+offset_right = 258.0
+offset_bottom = 150.0
+
+[node name="Show Target" type="TextEdit" parent="CheckTarget"]
+layout_mode = 0
+offset_left = -188.0
+offset_top = -20.0
+offset_right = -9.0
+offset_bottom = 37.0
+text = "Show Target (t)"
+editable = false
+
+[node name="Answer" type="Button" parent="."]
+layout_mode = 0
+offset_left = 309.0
+offset_top = 105.0
+offset_right = 591.0
+offset_bottom = 178.0
+text = "Answer
+~         ~"
+
+[node name="Randomize" type="Button" parent="."]
+layout_mode = 0
+offset_left = 641.0
+offset_top = 106.0
+offset_right = 770.0
+offset_bottom = 167.0
+text = "Randomize"
+
+[node name="ImageLoader" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.036
+anchor_top = 0.081
+anchor_right = -0.036
+anchor_bottom = 0.081
+offset_left = 906.472
+offset_top = 51.512
+offset_right = 1124.47
+offset_bottom = 116.512
+text = "Import Song"
+
+[node name="FileDialog" type="FileDialog" parent="ImageLoader"]
+title = "Open a File"
+position = Vector2i(22, 52)
+size = Vector2i(1081, 570)
+ok_button_text = "Ouvrir"
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.wav,*.mp3; Supported Format")
+
+[node name="Loop" type="CheckButton" parent="."]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 929.0
+offset_top = 184.0
+offset_right = 1011.0
+offset_bottom = 215.0
+text = "loop"
+
+[connection signal="toggle1" from="." to="BandPass" method="_on_key_toggled"]
+[connection signal="toggle2" from="." to="Panner" method="_on_key_toggled"]
+[connection signal="toggle3" from="." to="Gain" method="_on_key_toggled"]
+[connection signal="enable_effect" from="BandPass" to="." method="_on_band_pass_enable_effect"]
+[connection signal="value_changed" from="BandPass" to="." method="_on_filter_value_changed"]
+[connection signal="enable_effect" from="Panner" to="." method="_on_panner_enable_effect"]
+[connection signal="value_changed" from="Panner" to="." method="_on_filter_2_value_changed"]
+[connection signal="enable_effect" from="Gain" to="." method="_on_gain_enable_effect"]
+[connection signal="value_changed" from="Gain" to="." method="_on_filter_3_value_changed"]
+[connection signal="finished" from="Track" to="." method="_on_track_finished"]
+[connection signal="toggled" from="CheckTarget" to="." method="_on_check_button_toggled"]
+[connection signal="pressed" from="Answer" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Randomize" to="." method="_on_randomize_pressed"]
+[connection signal="pressed" from="ImageLoader" to="." method="_on_image_loader_pressed"]
+[connection signal="file_selected" from="ImageLoader/FileDialog" to="." method="_on_file_dialog_file_selected"]
+[connection signal="toggled" from="Loop" to="." method="_on_loop_toggled"]

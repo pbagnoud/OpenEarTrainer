@@ -1,0 +1,52 @@
+[gd_scene load_steps=2 format=3 uid="uid://b5myvjikpkkoe"]
+
+[ext_resource type="Script" path="res://Filter.gd" id="1_187uu"]
+
+[node name="Filter" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_187uu")
+
+[node name="HSlider" type="HSlider" parent="."]
+layout_mode = 0
+offset_left = 229.0
+offset_top = 5.0
+offset_right = 725.0
+offset_bottom = 55.0
+step = 0.001
+value = 100.0
+allow_greater = true
+allow_lesser = true
+tick_count = 11
+ticks_on_borders = true
+
+[node name="TextEdit" type="TextEdit" parent="."]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 7.0
+offset_right = 190.0
+offset_bottom = 54.0
+editable = false
+
+[node name="TextEdit2" type="TextEdit" parent="."]
+layout_mode = 0
+offset_left = 731.0
+offset_top = 11.0
+offset_right = 818.0
+offset_bottom = 54.0
+editable = false
+
+[node name="CheckButton" type="CheckButton" parent="."]
+layout_mode = 0
+offset_left = 832.0
+offset_top = 22.0
+offset_right = 876.0
+offset_bottom = 46.0
+button_pressed = true
+
+[connection signal="value_changed" from="HSlider" to="." method="_on_h_slider_value_changed"]
+[connection signal="toggled" from="CheckButton" to="." method="_on_check_button_toggled"]

@@ -1,0 +1,34 @@
+[gd_resource type="AudioBusLayout" load_steps=3 format=3 uid="uid://b76joyq14aig3"]
+
+[sub_resource type="AudioEffectPanner" id="AudioEffectPanner_ydsuk"]
+resource_name = "Panner"
+pan = -1.0
+
+[sub_resource type="AudioEffectPanner" id="AudioEffectPanner_42ce4"]
+resource_name = "Panner"
+pan = 0.5
+
+[resource]
+bus/0/volume_db = -17.6573
+bus/1/name = &"Target"
+bus/1/solo = false
+bus/1/mute = false
+bus/1/bypass_fx = false
+bus/1/volume_db = 0.0
+bus/1/send = &"Master"
+bus/2/name = &"Current"
+bus/2/solo = false
+bus/2/mute = false
+bus/2/bypass_fx = false
+bus/2/volume_db = 0.0
+bus/2/send = &"Master"
+bus/3/name = &"Convert_to_mono"
+bus/3/solo = false
+bus/3/mute = false
+bus/3/bypass_fx = false
+bus/3/volume_db = 0.0
+bus/3/send = &"Current"
+bus/3/effect/0/effect = SubResource("AudioEffectPanner_ydsuk")
+bus/3/effect/0/enabled = true
+bus/3/effect/1/effect = SubResource("AudioEffectPanner_42ce4")
+bus/3/effect/1/enabled = true
