@@ -1,8 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://crlht0weng47x"]
+[gd_scene load_steps=3 format=3 uid="uid://crlht0weng47x"]
 
 [ext_resource type="PackedScene" uid="uid://b5myvjikpkkoe" path="res://script/filter.tscn" id="1_1imb5"]
 [ext_resource type="Script" path="res://script/main.gd" id="1_ni1r3"]
-[ext_resource type="AudioStream" uid="uid://6x0elijr2org" path="res://gn-final.wav" id="3_8aghv"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -28,6 +27,7 @@ exp_edit = true
 min_value = 30.0
 max_value = 20000.0
 value = 2000.0
+step = 1.0
 
 [node name="Panner" parent="." instance=ExtResource("1_1imb5")]
 layout_mode = 1
@@ -48,45 +48,46 @@ offset_bottom = 477.0
 effect = "Gain (3)"
 min_value = -10.0
 max_value = 10.0
+step = 0.1
 
 [node name="Track" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_8aghv")
 autoplay = true
 mix_target = 2
 bus = &"Convert_to_mono"
 
 [node name="CheckTarget" type="CheckButton" parent="."]
+self_modulate = Color(0.239216, 0.423529, 0.909804, 1)
 layout_mode = 0
-offset_left = 214.0
-offset_top = 126.0
-offset_right = 258.0
-offset_bottom = 150.0
+offset_left = 505.0
+offset_top = 129.0
+offset_right = 549.0
+offset_bottom = 153.0
 
-[node name="Show Target" type="TextEdit" parent="CheckTarget"]
+[node name="Show Target" type="Button" parent="CheckTarget"]
 layout_mode = 0
 offset_left = -188.0
 offset_top = -20.0
 offset_right = -9.0
 offset_bottom = 37.0
-text = "Show Target (t)"
-editable = false
+disabled = true
+text = "Show Target (T)"
 
 [node name="Answer" type="Button" parent="."]
 layout_mode = 0
-offset_left = 309.0
-offset_top = 105.0
-offset_right = 591.0
-offset_bottom = 178.0
+offset_left = 575.0
+offset_top = 106.0
+offset_right = 857.0
+offset_bottom = 179.0
 text = "Answer
 ~         ~"
 
 [node name="Randomize" type="Button" parent="."]
 layout_mode = 0
-offset_left = 641.0
-offset_top = 106.0
-offset_right = 770.0
-offset_bottom = 167.0
-text = "Randomize"
+offset_left = 892.0
+offset_top = 107.0
+offset_right = 1077.0
+offset_bottom = 181.0
+text = "Randomize Target"
 
 [node name="ImageLoader" type="Button" parent="."]
 layout_mode = 1
@@ -95,10 +96,10 @@ anchor_left = -0.036
 anchor_top = 0.081
 anchor_right = -0.036
 anchor_bottom = 0.081
-offset_left = 906.472
-offset_top = 51.512
-offset_right = 1124.47
-offset_bottom = 116.512
+offset_left = 96.472
+offset_top = 24.512
+offset_right = 314.47
+offset_bottom = 89.512
 text = "Import Song"
 
 [node name="FileDialog" type="FileDialog" parent="ImageLoader"]
@@ -108,17 +109,30 @@ size = Vector2i(1081, 570)
 ok_button_text = "Ouvrir"
 file_mode = 0
 access = 2
-filters = PackedStringArray("*.wav,*.mp3; Supported Format")
+filters = PackedStringArray("*.mp3; Supported Format")
 
 [node name="Loop" type="CheckButton" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = -1
 offset_left = 929.0
 offset_top = 184.0
 offset_right = 1011.0
 offset_bottom = 215.0
+button_pressed = true
 text = "loop"
 
+[node name="GrayNoise" type="Button" parent="."]
+layout_mode = 0
+offset_left = 57.0
+offset_top = 153.0
+offset_right = 271.0
+offset_bottom = 208.0
+text = "Gray Noise"
+
+[connection signal="channel_changed" from="." to="BandPass" method="_on_main_channel_changed"]
+[connection signal="channel_changed" from="." to="Panner" method="_on_main_channel_changed"]
+[connection signal="channel_changed" from="." to="Gain" method="_on_main_channel_changed"]
 [connection signal="toggle1" from="." to="BandPass" method="_on_key_toggled"]
 [connection signal="toggle2" from="." to="Panner" method="_on_key_toggled"]
 [connection signal="toggle3" from="." to="Gain" method="_on_key_toggled"]
@@ -135,3 +149,4 @@ text = "loop"
 [connection signal="pressed" from="ImageLoader" to="." method="_on_image_loader_pressed"]
 [connection signal="file_selected" from="ImageLoader/FileDialog" to="." method="_on_file_dialog_file_selected"]
 [connection signal="toggled" from="Loop" to="." method="_on_loop_toggled"]
+[connection signal="pressed" from="GrayNoise" to="." method="_on_gray_noise_pressed"]

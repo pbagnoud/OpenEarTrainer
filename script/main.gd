@@ -7,8 +7,15 @@ var target_pan = AudioEffectPanner.new()
 var current_pan = AudioEffectPanner.new()
 var target_gain = AudioEffectAmplify.new()
 var current_gain = AudioEffectAmplify.new()
-var loop = false
-signal toggle1; signal toggle2; signal toggle3
+var loop = true
+signal toggle1; signal toggle2; signal toggle3; signal channel_changed(is_target)
+var gray_noise_playing: bool = false:
+	set(value):
+		gray_noise_playing = value
+		if value:
+			$GrayNoise.text = "Pause"
+		else:
+			$GrayNoise.text = "Gray Noise"
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$Track.play()
@@ -22,9 +29,10 @@ func _ready():
 	randomize_parameters()
 
 func randomize_parameters():
-	target_bandpass.cutoff_hz = 19970*(pow(2,randf())-1) + 30
-	target_pan.pan = 2*randf() - 1
-	target_gain.volume_db = 20 * randf() - 10
+	var x = randf()
+	target_bandpass.cutoff_hz = snapped(19970*((pow(700,x)-1)/699-0.04*x*(x-1)) + 30,$BandPass.step)
+	target_pan.pan = snapped(2*randf() - 1,$Panner.step)
+	target_gain.volume_db = snapped(20 * randf() - 10, $Gain.step)
 	$Answer.text = "Answer\n~         ~"
 	print(target_bandpass.cutoff_hz,target_pan.pan, target_gain.volume_db)
 	
@@ -56,6 +64,8 @@ func _on_filter_3_value_changed(value):
 
 func _on_check_button_toggled(button_pressed):
 	print(button_pressed)
+	channel_changed.emit(button_pressed)
+	color_CheckTarget(button_pressed)
 	if button_pressed:
 		AudioServer.set_bus_send(3, "Target")
 	else:
@@ -63,7 +73,7 @@ func _on_check_button_toggled(button_pressed):
 
 
 func _on_button_pressed():
-	$Answer.text = "Answer  \n " + str(snapped(target_bandpass.cutoff_hz,0.01)) + " ~ " + str(snapped(target_pan.pan,0.01)) + " ~ " +str(snapped(target_gain.volume_db,0.01))
+	$Answer.text = "Answer  \n " + str(snapped(target_bandpass.cutoff_hz,1)) + " ~ " + str(snapped(target_pan.pan,0.01)) + " ~ " +str(snapped(target_gain.volume_db,0.01))
 
 
 func _on_randomize_pressed():
@@ -71,6 +81,8 @@ func _on_randomize_pressed():
 
 
 func _on_image_loader_pressed():
+	$Track.stop()
+	gray_noise_playing = false
 	$ImageLoader/FileDialog.popup()
 
 
@@ -87,6 +99,11 @@ func _on_file_dialog_file_selected(path):
 	$Track.play()
 
 
+func color_CheckTarget(is_target):
+	if not is_target:
+		$CheckTarget.self_modulate = "3d6ce8"
+	else:
+		$CheckTarget.self_modulate = "a7091f"
 
 func add_Bandpass():
 	AudioServer.add_bus_effect(1, target_bandpass)
@@ -125,3 +142,13 @@ func _on_loop_toggled(button_pressed):
 func _on_track_finished():
 	if loop: 
 		$Track.play()
+
+
+func _on_gray_noise_pressed():
+	if gray_noise_playing:
+		$Track.stop()
+		gray_noise_playing = false
+	else:
+		$Track.stream = load("res://Gray_noise.wav")
+		$Track.play()
+		gray_noise_playing = true

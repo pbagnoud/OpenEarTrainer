@@ -1,0 +1,11 @@
+ea4bc82a6ad023ab7ee23ee620429895
+::res://::1706022386
+default_bus_layout.tres::AudioBusLayout::4697032131032915480::1706012751::0::1::::<><>::
+Filter.gd::GDScript::-1::1706018927::0::1::::<>Control<>::
+Gray_noise.wav::AudioStreamWAV::4457770999288003475::1705341624::1705947485::1::::<><>::
+README.MD::TextFile::-1::1705947220::0::1::::<><>::
+::res://scene/::1706022329
+main.tscn::PackedScene::5989220160829803723::1706022329::0::1::::<><>::uid://b5myvjikpkkoe::::res://script/filter.tscn<>res://script/main.gd
+::res://script/::1706022329
+filter.tscn::PackedScene::4518353720924578824::1706020776::0::1::::<><>::res://Filter.gd
+main.gd::GDScript::-1::1706022329::0::1::::<>Control<>::
