@@ -25,8 +25,9 @@ func _ready():
 	add_Bandpass()
 	add_Pan()
 	add_Gain()
-	
+	initialize_help_window()
 	randomize_parameters()
+	
 
 func randomize_parameters():
 	var x = randf()
@@ -36,7 +37,11 @@ func randomize_parameters():
 	$Answer.text = "Answer\n~         ~"
 	print(target_bandpass.cutoff_hz,target_pan.pan, target_gain.volume_db)
 	
-	
+func initialize_help_window():
+	var file = FileAccess.open("res://README.MD", FileAccess.READ)
+	$Help/TextHelp.text = file.get_as_text()
+	file.close()
+		
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	if Input.is_action_just_pressed("toggle"):
@@ -152,3 +157,7 @@ func _on_gray_noise_pressed():
 		$Track.stream = load("res://Gray_noise.wav")
 		$Track.play()
 		gray_noise_playing = true
+
+
+func _on_help_button_pressed():
+	$Help.popup()

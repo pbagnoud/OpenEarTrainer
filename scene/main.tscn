@@ -74,19 +74,19 @@ text = "Show Target (T)"
 
 [node name="Answer" type="Button" parent="."]
 layout_mode = 0
-offset_left = 575.0
-offset_top = 106.0
-offset_right = 857.0
-offset_bottom = 179.0
+offset_left = 570.0
+offset_top = 155.0
+offset_right = 852.0
+offset_bottom = 228.0
 text = "Answer
 ~         ~"
 
 [node name="Randomize" type="Button" parent="."]
 layout_mode = 0
-offset_left = 892.0
-offset_top = 107.0
-offset_right = 1077.0
-offset_bottom = 181.0
+offset_left = 571.0
+offset_top = 69.0
+offset_right = 852.0
+offset_bottom = 143.0
 text = "Randomize Target"
 
 [node name="ImageLoader" type="Button" parent="."]
@@ -127,8 +127,33 @@ layout_mode = 0
 offset_left = 57.0
 offset_top = 153.0
 offset_right = 271.0
-offset_bottom = 208.0
+offset_bottom = 209.0
 text = "Gray Noise"
+
+[node name="Help" type="AcceptDialog" parent="."]
+title = "About OpenEarTrainer"
+position = Vector2i(75, 50)
+size = Vector2i(1000, 550)
+max_size = Vector2i(1000, 1000)
+content_scale_mode = 2
+dialog_autowrap = true
+
+[node name="TextHelp" type="TextEdit" parent="Help"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 992.0
+offset_bottom = 501.0
+text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+placeholder_text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+wrap_mode = 1
+
+[node name="HelpButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 914.0
+offset_top = 122.0
+offset_right = 1076.0
+offset_bottom = 179.0
+text = "About "
 
 [connection signal="channel_changed" from="." to="BandPass" method="_on_main_channel_changed"]
 [connection signal="channel_changed" from="." to="Panner" method="_on_main_channel_changed"]
@@ -150,3 +175,4 @@ text = "Gray Noise"
 [connection signal="file_selected" from="ImageLoader/FileDialog" to="." method="_on_file_dialog_file_selected"]
 [connection signal="toggled" from="Loop" to="." method="_on_loop_toggled"]
 [connection signal="pressed" from="GrayNoise" to="." method="_on_gray_noise_pressed"]
+[connection signal="pressed" from="HelpButton" to="." method="_on_help_button_pressed"]

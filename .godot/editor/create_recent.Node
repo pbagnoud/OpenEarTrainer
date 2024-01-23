@@ -1,1 +1,10 @@
 Button
+TextEdit
+ScrollContainer
+VScrollBar
+HScrollBar
+Control
+AcceptDialog
+ConfirmationDialog
+PopupPanel
+Popup
